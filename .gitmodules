@@ -1,0 +1,3 @@
+[submodule "redactor-js"]
+	path = redactor-js
+	url = https://github.com/dybskiy/redactor-js.git
