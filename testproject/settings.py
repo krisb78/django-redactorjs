@@ -77,14 +77,6 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     (
-        'jquery',
-        os.path.join(
-            PROJECT_PATH,
-            '..',
-            'jquery'
-        )
-    ),
-    (
         'redactor-js',
         os.path.join(
             PROJECT_PATH,
@@ -139,7 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'testproject.app',
+    'app',
     'redactorjs',
 )
 
