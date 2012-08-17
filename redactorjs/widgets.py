@@ -24,7 +24,9 @@ class RedactorJS(forms.Textarea):
     def render(self, name, value, attrs=None):
         value = value or ''
         value = smart_unicode(value)
-        final_attrs = self.build_attrs(attrs)
+
+        # Have to pass the name to build_attrs, otherwise it won't serialize!
+        final_attrs = self.build_attrs(attrs, name=name)
         assert 'id' in final_attrs, "RedactorJS widget requires an id"
 
         html = [
@@ -34,14 +36,26 @@ class RedactorJS(forms.Textarea):
             )
         ]
         html.append(
-            u'<script type="text/javascript"></script>'
+            u'<script type="text/javascript">'
+            u'$(document).ready(function(){$(%s).redactor();});'
+            u'</script>' % u"'#%s'" % final_attrs['id']
         )
 
         return mark_safe(u'\n'.join(html))
 
     def _media(self):
-        js = [settings.JS_URL]
-        return forms.Media(js=js)
+        css = {
+            'all': (settings.CSS_URL,)
+        }
+        js = [
+            settings.JQUERY_JS_URL,
+            settings.JS_URL
+
+        ]
+        return forms.Media(
+            css=css,
+            js=js
+        )
     media = property(_media)
 
 
@@ -52,3 +66,14 @@ class AdminRedactorJS(
     """
     RedactorJS widget for the admin.
     """
+    def render(self, name, value, attrs=None):
+        html = super(
+            AdminRedactorJS,
+            self
+        ).render(name, value, attrs=attrs)
+
+        # setting clear to both makes sure that the label appears above
+        # the widget.
+        return mark_safe(
+            u'<div style="clear: both;">%s</div>' % html
+        )

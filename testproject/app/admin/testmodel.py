@@ -1,7 +1,13 @@
+from django.db import models
+
 from django.contrib import admin
 
-from .forms.testmodel import TestModelForm
+from redactorjs.widgets import AdminRedactorJS
 
 
 class TestModelAdmin(admin.ModelAdmin):
-    form = TestModelForm
+    formfield_overrides = {
+        models.TextField: {
+            'widget': AdminRedactorJS
+        }
+    }

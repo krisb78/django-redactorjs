@@ -7,8 +7,7 @@ from redactorjs.widgets import AdminRedactorJS
 
 class TestModelForm(forms.ModelForm):
     text = forms.CharField(
-        widget=AdminRedactorJS()
+        widget=AdminRedactorJS
     )
-
     class Meta:
         model = TestModel
